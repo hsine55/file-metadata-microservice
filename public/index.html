@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>File Metadata Microservice</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script>
+  $( document ).ready(function() {
+    $('#submitFile').click(function(){
+      var file = $('input[type=file]')[0].files[0];
+      console.log(file)
+      var data = new FormData();
+      data.append("file1", file, "file1")
+      
+      console.log(data)
+      $.ajax({
+        url : "/fileanalyse/",
+        type: "POST",
+        data : data,
+        cache: false,
+		    processData: false,
+		    contentType: false,
+		    async : false,
+        success: function(data, textStatus, jqXHR)
+        {
+          alert(JSON.stringify(data))
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        { 
+          alert("fuck")
+        }
+      });
+      /*$.ajax({
+		    url: '/fileanalyse/',
+		    type: 'POST',
+		    data: data,
+		    error: function (jXhr, status) {
+			    alert('error: ' + status);
+		    },
+		    success: function (data) {
+			    console.log(data);
+			    alert('file size: ' + data.size);
+		    }
+	    });*/
+    });
+  });
+  
+  $(document).on('change', ':file', function(e) {
+    var fileName = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '');
+    console.log(fileName);
+    $('#fileName').text(fileName);
+    });
+    
+    
+  </script>
+</head>
+<body>
+
+<div class="container">
+  <h2>File Metadata Microservice</h2>
+  <p>Choose a file to upload and then click on submit to get the result.</p>
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <label class="btn btn-default btn-file">
+        Browse <input type="file" style="display: none;" id="myFile">
+      </label>
+      <label id ="fileName">
+        No file chosen.
+      </label>
+    </div>
+    <button type="submit" class="btn btn-default" id="submitFile">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
