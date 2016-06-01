@@ -11,9 +11,9 @@
         type: "POST",
         data : data,
         cache: false,
-		    processData: false,
-		    contentType: false,
-		    async : false,
+		processData: false,
+		contentType: false,
+		async : false,
         success: function(data, textStatus, jqXHR)
         {
           alert(JSON.stringify(data))
